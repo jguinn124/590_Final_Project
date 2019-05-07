@@ -30,6 +30,9 @@ class Application(tk.Frame):
 		self.p_scan = tk.Button(self, text="Scan Ports", fg="blue", command=self.p_scan)
 		self.p_scan.pack()
 		
+		self.p_scan = tk.Button(self, text="Scan External Ports", fg="blue", command=self.p_scan)
+		self.p_scan.pack()
+		
 		self.arp_cache = tk.Button(self, text="ARP cache", fg="blue", command=self.arp_cache)
 		self.arp_cache.pack()
 		
@@ -57,6 +60,26 @@ class Application(tk.Frame):
 	def p_scan(self):
 		import subprocess
 		
+		
+		top = Toplevel()
+		top.title("Scanning results")
+		top.minsize(300, 300)
+
+
+		
+		# put results in data
+		data = 5
+
+		label = Message(top, text="Data \n")
+		label.pack()
+
+		label = Message(top, text=data)
+		label.pack()
+		
+		
+
+		button = Button(top, text="Dismiss", command=top.destroy)
+		button.pack()
 		print("Scanning...")
 		
 		subprocess.call('clear', shell=True)
