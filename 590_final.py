@@ -26,6 +26,9 @@ class Application(tk.Frame):
         
         self.p_scan = tk.Button(self, text="Scan Ports", fg="blue", command=self.p_scan)
         self.p_scan.pack()
+        
+        self.arp_cache = tk.Button(self, text="ARP cache", fg="blue", command=self.arp_cache)
+        self.arp_cache.pack()
 
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.pack(side="bottom")
@@ -51,11 +54,11 @@ class Application(tk.Frame):
         target = 'localhost'
         
 
-        time.sleep(2)
+        time.sleep(1)
 
         print(".")
         
-        time.sleep(2)
+        time.sleep(1)
    
 
         print(".") 
@@ -63,6 +66,26 @@ class Application(tk.Frame):
 
         
         print(".")
+        
+    def arp_cache(self):
+        
+        print(" Arp stuff")
+        import subprocess
+        #subprocess.check_output(['ls','-l']) #all that is technically needed...
+        
+        ls = subprocess.check_output(['ls'])
+        
+        a = "\\"
+        
+        
+        str(ls)
+        
+        ls.split(a)
+        
+        print(ls)
+        
+        
+    
         
 
 root = tk.Tk()
