@@ -15,7 +15,7 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        master.title("Scanner GUI")
+        master.title("Easy Network Utility")
         master.geometry("300x300")
         self.pack()
         self.create_widgets()
@@ -35,8 +35,14 @@ class Application(tk.Frame):
         self.p_scan = tk.Button(self, text="Scan External Ports", fg="blue", command=self.p_scan)
         self.p_scan.pack()
         
-        self.arp_cache = tk.Button(self, text="ARP cache", fg="blue", command=self.arp_cache)
-        self.arp_cache.pack()
+        self.ping = tk.Button(self, text="Ping local", fg="blue", command=self.ping)
+        self.ping.pack()
+
+        self.ping_button = tk.Button(self, text="Ping out", fg="blue", command=self.ping_out)
+        self.ping_button.pack()
+
+        self.ifcon_button = tk.Button(self, text="Network Configuration", fg="blue", command=self.ifconfig)
+        self.ifcon_button.pack()
 
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.pack(side="bottom")
@@ -56,11 +62,26 @@ class Application(tk.Frame):
         
     
     def p_scan(self):
+
+        print_lock = threading.Lock()
+        remoteServer    = "localhost"
+        remoteServerIP  = socket.gethostbyname(remoteServer)
+
+
+        for port in range(1,1025):
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            result = sock.connect_ex((remoteServerIP, port))
+            if result == 0:
+                print("Port", format(port))
+                open_port = port
+            sock.close()
+            
+
+
+
+
+
         
-        print("Scanning...")
-
-
-
         top = Toplevel()
         top.title("Scanning results")
         top.minsize(300, 300)
@@ -68,7 +89,7 @@ class Application(tk.Frame):
 
         
         # put results in data
-        data = 5
+        data = open_port
 
         label = Message(top, text="Data \n")
         label.pack()
@@ -84,23 +105,73 @@ class Application(tk.Frame):
                 
 
         
-    def arp_cache(self):
+    def ping(self):
         
-        print(" Arp stuff")
+        print("pinging")
         import subprocess
         #subprocess.check_output(['ls','-l']) #all that is technically needed...
         
-        ls = subprocess.check_output(['ls'])
+        ping = subprocess.check_output(["ping", "localhost", "-c 5"])
+
+        top = Toplevel()
+        top.title("Scanning results")
+        top.minsize(300, 300)
+
+
         
-        a = "\\"
+        # put results in data
+        data = ping
+
+        label = Message(top, text="Data \n")
+        label.pack()
+
+        label = Message(top, text=data)
+        label.pack()
         
+
+
+    def ping_out(self):
         
-        str(ls)
+        print("pinging")
+        import subprocess
+        #subprocess.check_output(['ls','-l']) #all that is technically needed...
+        addr = input("where to?")
+        ping = subprocess.check_output(["ping", addr, "-c 5"])
+
+        top = Toplevel()
+        top.title("Scanning results")
+        top.minsize(300, 300)
+            
+            # put results in data
+        data = ping
+
+        label = Message(top, text="Data \n")
+        label.pack()
+
+        label = Message(top, text=data)
+        label.pack()
+
+
+    def ifconfig(self):
         
-        ls.split(a)
-        
-        print(ls)
-        
+        print("pinging")
+        import subprocess
+        #subprocess.check_output(['ls','-l']) #all that is technically needed...
+        res = subprocess.check_output(["ifconfig"])
+
+        top = Toplevel()
+        top.title("Scanning results")
+        top.minsize(300, 300)
+            
+            # put results in data
+        data = res
+
+        label = Message(top, text="Data \n")
+        label.pack()
+
+        label = Message(top, text=data)
+        label.pack()
+            
         
     
         
