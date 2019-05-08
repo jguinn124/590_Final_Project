@@ -45,6 +45,9 @@ class Application(tk.Frame):
         self.ifcon_button = tk.Button(self, text="Network Configuration", fg="blue", command=self.ifconfig)
         self.ifcon_button.pack()
 
+        self.netstat_button = tk.Button(self, text="Router Configuration", fg="blue", command=self.netstat)
+        self.netstat_button.pack()
+
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.pack(side="bottom")
 
@@ -170,14 +173,32 @@ class Application(tk.Frame):
 
     def ifconfig(self):
         
-        print("pinging")
         import subprocess
         #subprocess.check_output(['ls','-l']) #all that is technically needed...
         res = subprocess.check_output(["ifconfig"])
 
         top = Toplevel()
-        top.title("Scanning results")
+        top.title("Results")
         top.minsize(300, 300)
+            
+            # put results in data
+        data = res
+
+        label = Message(top, text="Data \n")
+        label.pack()
+
+        label = Message(top, text=data)
+        label.pack()
+
+    def netstat(self):
+        
+        import subprocess
+        #subprocess.check_output(['ls','-l']) #all that is technically needed...
+        res = subprocess.check_output(["netstat", "-r"])
+
+        top = Toplevel()
+        top.title("Results")
+        top.minsize(600, 300)
             
             # put results in data
         data = res
