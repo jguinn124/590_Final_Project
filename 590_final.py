@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 John Guinn
+Devin Colbert
 
-nmap GUI
+Network Utility App
 """
 from tkinter import *
 import tkinter as tk
@@ -48,7 +49,22 @@ class Application(tk.Frame):
         self.quit.pack(side="bottom")
 
     def say_hi(self):
-        print("hi there, everyone!")
+        top = Toplevel()
+        top.title("Scanning results")
+        top.minsize(300, 300)
+            
+            # put results in data
+        data = """ Blah Blah dont use this application to attack servers that you have no authourity over.
+            """
+
+        label = Message(top, text="Documentation")
+        label.pack()
+
+        label = Message(top, text=data)
+        label.pack()
+
+
+        
 
     def scan_window(seft):
         top = Toplevel()
