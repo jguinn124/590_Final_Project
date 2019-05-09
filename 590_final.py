@@ -20,6 +20,9 @@ class Application(tk.Frame):
 		master.title("Scanner GUI")
 		self.pack()
 		self.create_widgets()
+		self.target = 'hackthissite.org'
+		self.q = Queue()
+		self.print_lock = threading.Lock()
 
 	def create_widgets(self):
 		self.hi_there = tk.Button(self)
@@ -32,6 +35,9 @@ class Application(tk.Frame):
 		
 		self.p_scan = tk.Button(self, text="Scan External Ports", fg="blue", command=self.p_scan)
 		self.p_scan.pack()
+		
+		self.port_scan = tk.Button(self, text="Scan Ports With Threading", fg="blue", command=self.port_scan)
+		self.port_scan.pack()
 		
 		self.arp_cache = tk.Button(self, text="ARP cache", fg="blue", command=self.arp_cache)
 		self.arp_cache.pack()
@@ -61,7 +67,7 @@ class Application(tk.Frame):
 		import subprocess
 		
 		
-		top = Toplevel()
+		'''top = Toplevel()
 		top.title("Scanning results")
 		top.minsize(300, 300)
 
@@ -79,7 +85,7 @@ class Application(tk.Frame):
 		
 
 		button = Button(top, text="Dismiss", command=top.destroy)
-		button.pack()
+		button.pack()'''
 		print("Scanning...")
 		
 		subprocess.call('clear', shell=True)
@@ -147,6 +153,39 @@ class Application(tk.Frame):
 		
 		print(ls)
 		
+	def scan(self, port):
+		
+		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		try:
+			con = sock.connect((self.target,port))
+			with self.print_lock:
+				print('port', port)
+			con.close()
+		except:
+			pass
+			
+	def threader(self):
+		while True:
+			worker = self.q.get()
+			
+			self.scan(worker)
+			
+			self.q.task_done()
+			
+	def port_scan(self):
+		
+		for i in range(30):
+			t = threading.Thread(target=self.threader)
+			
+			t.daemon = True
+			t.start()
+			
+		start = time.time()
+		
+		for worker in range(1, 100):
+			self.q.put(worker)
+		
+		self.q.join()
 	'''def nmap_scan(self):
 		nm = nmap.PortScanner()
 		nm.scan('127.0.0.1', '20-1024')
