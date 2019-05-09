@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 John Guinn
-Deven Colbert
+Devin Colbert
 
 Network Utility App
 """
@@ -57,7 +57,7 @@ class Application(tk.Frame):
         top.minsize(300, 300)
             
             # put results in data
-        data = """ Blah Blah dont use this application to attack servers that you have no authourity over.
+        data = """ Blah Blah dont use this application to attack machines that you have no authourity over.
             """
 
         label = Message(top, text="Documentation")
@@ -94,9 +94,6 @@ class Application(tk.Frame):
                 print("Port", format(port))
                 open_port = port
             sock.close()
-            
-
-
 
 
 
@@ -133,8 +130,8 @@ class Application(tk.Frame):
         ping = subprocess.check_output(["ping", "localhost", "-c 5"])
 
         top = Toplevel()
-        top.title("Scanning results")
-        top.minsize(300, 300)
+        top.title("Ping results")
+        top.minsize(500, 300)
 
 
         
@@ -158,10 +155,11 @@ class Application(tk.Frame):
         ping = subprocess.check_output(["ping", addr, "-c 5"])
 
         top = Toplevel()
-        top.title("Scanning results")
+        top.title("Ping results")
         top.minsize(300, 300)
             
-            # put results in data
+
+        # put results in data
         data = ping
 
         label = Message(top, text="Data \n")
@@ -181,7 +179,8 @@ class Application(tk.Frame):
         top.title("Results")
         top.minsize(300, 300)
             
-            # put results in data
+
+        # put results in data
         data = res
 
         label = Message(top, text="Data \n")
@@ -197,10 +196,11 @@ class Application(tk.Frame):
         res = subprocess.check_output(["netstat", "-r"])
 
         top = Toplevel()
-        top.title("Results")
+        top.title("Network Results")
         top.minsize(600, 300)
             
-            # put results in data
+
+        # put results in data
         data = res
 
         label = Message(top, text="Data \n")
