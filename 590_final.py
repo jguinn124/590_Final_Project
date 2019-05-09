@@ -17,7 +17,8 @@ class Application(tk.Frame):
 	def __init__(self, master=None):
 		super().__init__(master)
 		self.master = master
-		master.title("Scanner GUI")
+		master.title("Easy Network Utility")
+		master.geometry("300x300")
 		self.pack()
 		self.create_widgets()
 
@@ -33,8 +34,17 @@ class Application(tk.Frame):
 		self.p_scan = tk.Button(self, text="Scan External Ports", fg="blue", command=self.p_scan)
 		self.p_scan.pack()
 		
-		self.arp_cache = tk.Button(self, text="ARP cache", fg="blue", command=self.arp_cache)
-		self.arp_cache.pack()
+		self.ping = tk.Button(self, text="Ping local", fg="blue", command=self.ping)
+		self.ping.pack()
+
+		self.ping_button = tk.Button(self, text="Ping out", fg="blue", command=self.ping_out)
+		self.ping_button.pack()
+
+		self.ifcon_button = tk.Button(self, text="Network Configuration", fg="blue", command=self.ifconfig)
+		self.ifcon_button.pack()
+
+		self.netstat_button = tk.Button(self, text="Router Configuration", fg="blue", command=self.netstat)
+		self.netstat_button.pack()
 		
 		#self.nmap_scan = tk.Button(self, text="Nmap Scan", fg="blue", command=self.nmap_scan)
 		#self.nmap_scan.pack()
@@ -59,27 +69,8 @@ class Application(tk.Frame):
 	
 	def p_scan(self):
 		import subprocess
+		print_lock = threading.Lock()
 		
-		
-		top = Toplevel()
-		top.title("Scanning results")
-		top.minsize(300, 300)
-
-
-		
-		# put results in data
-		data = 5
-
-		label = Message(top, text="Data \n")
-		label.pack()
-
-		label = Message(top, text=data)
-		label.pack()
-		
-		
-
-		button = Button(top, text="Dismiss", command=top.destroy)
-		button.pack()
 		print("Scanning...")
 		
 		subprocess.call('clear', shell=True)
@@ -130,6 +121,27 @@ class Application(tk.Frame):
 		
 		print("Scanning Completed in: ", total)
 		
+		top = Toplevel()
+		top.title("Scanning results")
+		top.minsize(300, 300)
+
+
+		
+		# put results in data
+		data = 5
+
+		label = Message(top, text="Data \n")
+		label.pack()
+
+		label = Message(top, text=data)
+		label.pack()
+		
+		
+
+		button = Button(top, text="Dismiss", command=top.destroy)
+		button.pack()
+		
+		
 	def arp_cache(self):
 		
 		print(" Arp stuff")
@@ -146,6 +158,91 @@ class Application(tk.Frame):
 		ls.split(a)
 		
 		print(ls)
+		
+	def ping(self):
+		
+		print("pinging")
+		import subprocess
+		#subprocess.check_output(['ls','-l']) #all that is technically needed...
+		
+		ping = subprocess.check_output(["ping", "localhost", "-c 5"])
+
+		top = Toplevel()
+		top.title("Scanning results")
+		top.minsize(300, 300)
+
+
+		
+		# put results in data
+		data = ping
+
+		label = Message(top, text="Data \n")
+		label.pack()
+
+		label = Message(top, text=data)
+		label.pack()
+		
+
+
+	def ping_out(self):
+		
+		print("pinging")
+		import subprocess
+		#subprocess.check_output(['ls','-l']) #all that is technically needed...
+		addr = input("where to?")
+		ping = subprocess.check_output(["ping", addr, "-c 5"])
+
+		top = Toplevel()
+		top.title("Scanning results")
+		top.minsize(300, 300)
+			
+			# put results in data
+		data = ping
+
+		label = Message(top, text="Data \n")
+		label.pack()
+
+		label = Message(top, text=data)
+		label.pack()
+
+
+	def ifconfig(self):
+		
+		import subprocess
+		#subprocess.check_output(['ls','-l']) #all that is technically needed...
+		res = subprocess.check_output(["ifconfig"])
+
+		top = Toplevel()
+		top.title("Results")
+		top.minsize(300, 300)
+			
+			# put results in data
+		data = res
+
+		label = Message(top, text="Data \n")
+		label.pack()
+
+		label = Message(top, text=data)
+		label.pack()
+
+	def netstat(self):
+		
+		import subprocess
+		#subprocess.check_output(['ls','-l']) #all that is technically needed...
+		res = subprocess.check_output(["netstat", "-r"])
+
+		top = Toplevel()
+		top.title("Results")
+		top.minsize(600, 300)
+			
+			# put results in data
+		data = res
+
+		label = Message(top, text="Data \n")
+		label.pack()
+
+		label = Message(top, text=data)
+		label.pack()
 		
 	'''def nmap_scan(self):
 		nm = nmap.PortScanner()
