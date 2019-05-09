@@ -4,6 +4,7 @@ John Guinn
 
 nmap GUI
 """
+from tkinter import *
 import tkinter as tk
 import time
 import threading
@@ -149,23 +150,6 @@ class Application(tk.Frame):
 		button.pack()
 		
 		
-	def arp_cache(self):
-		
-		print(" Arp stuff")
-		import subprocess
-		#subprocess.check_output(['ls','-l']) #all that is technically needed...
-		
-		ls = subprocess.check_output(['ls'])
-		
-		a = "\\"
-		
-		
-		str(ls)
-		
-		ls.split(a)
-		
-		print(ls)
-		
 	def scan(self, port):
 		
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -251,20 +235,23 @@ class Application(tk.Frame):
 		
 		import subprocess
 		#subprocess.check_output(['ls','-l']) #all that is technically needed...
-		res = subprocess.check_output(["ifconfig"])
+		res = subprocess.check_output(["ipconfig"])
 
 		top = Toplevel()
 		top.title("Results")
 		top.minsize(300, 300)
+		
+		T = Text(top, height=10, width=100)
+		scrollbar = Scrollbar(top)
+		scrollbar.pack( side = RIGHT, fill = Y )
+		T.pack(side=LEFT, fill=Y)
+		scrollbar.config( command = T.yview )
+		T.config(yscrollcommand=scrollbar.set)
 			
 			# put results in data
 		data = res
-
-		label = Message(top, text="Data \n")
-		label.pack()
-
-		label = Message(top, text=data)
-		label.pack()
+		
+		T.insert(END, data)
 
 	def netstat(self):
 		
@@ -275,15 +262,21 @@ class Application(tk.Frame):
 		top = Toplevel()
 		top.title("Results")
 		top.minsize(600, 300)
+		
+		T = Text(top, height=30, width=100)
+		scrollbar = Scrollbar(top)
+		scrollbar.pack( side = RIGHT, fill = Y )
+		T.pack(side=LEFT, fill=Y)
+		scrollbar.config( command = T.yview )
+		T.config(yscrollcommand=scrollbar.set)
+		
+		#label = Listbox(top, yscrollcommand = scrollbar.set )
 			
 			# put results in data
 		data = res
-
-		label = Message(top, text="Data \n")
-		label.pack()
-
-		label = Message(top, text=data)
-		label.pack()
+		
+		T.insert(END, data)
+		
 		
 	'''def nmap_scan(self):
 		nm = nmap.PortScanner()
