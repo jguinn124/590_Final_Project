@@ -26,7 +26,14 @@ class Application(tk.Frame):
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Documentation"
         self.hi_there["command"] = self.say_hi
-        self.hi_there.pack(side="top")
+        #self.hi_there.pack(side="top")
+
+
+        
+        self.E1 = Entry(self, bd =5)
+        self.E1.pack(side = "top")
+
+        print(self.E1.get())
         
 
         
@@ -127,11 +134,14 @@ class Application(tk.Frame):
         import subprocess
         #subprocess.check_output(['ls','-l']) #all that is technically needed...
         
-        ping = subprocess.check_output(["ping", "localhost", "-c 5"])
+        ping = subprocess.check_output(["ping", self.E1.get(), "-c 5"])
 
         top = Toplevel()
         top.title("Ping results")
         top.minsize(500, 300)
+
+
+        print(self.E1.get())
 
 
         
@@ -178,16 +188,21 @@ class Application(tk.Frame):
         top = Toplevel()
         top.title("Results")
         top.minsize(300, 300)
+
+        
             
 
         # put results in data
         data = res
 
-        label = Message(top, text="Data \n")
+        label = Text(top)
         label.pack()
+        label.insert(END, "Data \n")
+        label.insert(END, data)
 
-        label = Message(top, text=data)
-        label.pack()
+
+        scroll1y=Scrollbar(top, command=label.yview)
+        scroll1y.pack(side=LEFT, fill=Y, pady=65)
 
     def netstat(self):
         
@@ -198,6 +213,11 @@ class Application(tk.Frame):
         top = Toplevel()
         top.title("Network Results")
         top.minsize(600, 300)
+
+
+        sc = Scrollbar(top, command=top.yview)
+        sc.pack(side=RIGHT, fill = Y)
+        #sc.config(command=top.yview)
             
 
         # put results in data
