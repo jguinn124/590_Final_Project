@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 John Guinn
-Devin Colbert
+Deven Colbert
 
 Network Utility App
 """
