@@ -126,11 +126,9 @@ class Application(tk.Frame):
 		
 		
 
-		time.sleep(1)
 
 		print("-"*60)
 		
-		time.sleep(1)
 
 		print("Please wait, scanning remote host", remoteServerIP) 
 		
@@ -173,7 +171,7 @@ class Application(tk.Frame):
 
 		
 		# put results in data
-		data = open_port
+		data = port
 
 		label = Message(top, text="Data \n")
 		label.pack()
@@ -208,12 +206,9 @@ class Application(tk.Frame):
 		
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
-			con = sock.connect((self.E1.get(),port))
+			con = sock.connect((self.target,port))
 			with self.print_lock:
-				data = res
-		
-				T.insert(END, data)
-				#print('port', port + '		Open')
+				print('port', port)
 			con.close()
 		except:
 			pass
