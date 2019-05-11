@@ -49,7 +49,7 @@ class Application(tk.Frame):
         self.ifcon_button = tk.Button(self, text="Network Configuration", fg="blue", command=self.ifconfig)
         self.ifcon_button.pack()
 
-        self.netstat_button = tk.Button(self, text="Router Configuration", fg="blue", command=self.netstat)
+        self.netstat_button = tk.Button(self, text="Routing Table", fg="blue", command=self.netstat)
         self.netstat_button.pack()
 
         self.arp_button = tk.Button(self, text="ARP Cache", fg="blue", command=self.arp_cache)
@@ -60,6 +60,12 @@ class Application(tk.Frame):
 
         self.dns_button = tk.Button(self, text="My Hostname and Domain", fg="blue", command=self.my_DNS)
         self.dns_button.pack()
+
+        self.ps_button = tk.Button(self, text="Running Processes", fg="blue", command=self.every_process_running)
+        self.ps_button.pack()
+
+        self.na_button = tk.Button(self, text="TCP Connections", fg="blue", command=self.netstat_a)
+        self.na_button.pack()
 
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.pack(side="bottom")
@@ -81,10 +87,8 @@ class Application(tk.Frame):
         Network Configuration button
         The Network Configuration button will allow you to see information about the network you are connected to.
 
-        Router Configuration Button
+        Routeing Table Button
         The Router Configuration Button will allow you to see how your router is configured and information about it.
-
-        ARP Cashe button
         
         
         For this programming project, we built a tkinter GUI application in python that allowed allows the user to scan the ports on their remote machine, ping the remote machine or a user inputted address, a configuration option to get the ip address of your machine and a netstat option to get the network statistics of you machine. These are the features that we have implemented for our project. The program is built in python as a class and each feature is a method in the class called “Application”. Each feature of this project is a button on the application GUI.
@@ -140,8 +144,10 @@ class Application(tk.Frame):
         label = Message(top, text="Data \n")
         label.pack()
 
-        label = Message(top, text=data)
+        label = Text(top)
         label.pack()
+        label.insert(END, "Open ports: ")
+        label.insert(END, data)
         
         
 
@@ -215,7 +221,7 @@ class Application(tk.Frame):
         res = subprocess.check_output(["netstat", "-r"])
 
         top = Toplevel()
-        top.title("Network Results")
+        top.title("Results")
         top.minsize(600, 300)
 
 
@@ -310,6 +316,59 @@ class Application(tk.Frame):
         label.pack()
         label.insert(END, data)
 
+
+        scroll1y=Scrollbar(top, command=label.yview)
+        scroll1y.pack(side=LEFT, fill=Y)
+
+
+    def every_process_running(self):
+        
+        import subprocess
+        #subprocess.check_output(['ls','-l']) #all that is technically needed...
+        res = subprocess.check_output(["ps", "aux"])
+
+        top = Toplevel()
+        top.title("Results")
+        top.minsize(500, 300)
+
+        
+            
+
+        # put results in data
+        data = res
+        label = Message(top, text="Data \n")
+        label.pack()
+
+        label = Text(top, width=600)
+        label.pack()
+        label.insert(END, data)
+
+
+        scroll1y=Scrollbar(top, command=label.yview)
+        scroll1y.pack(side=LEFT, fill=Y)
+
+    def netstat_a(self):
+        
+        import subprocess
+        #subprocess.check_output(['ls','-l']) #all that is technically needed...
+        res = subprocess.check_output(["netstat", "-a"])
+
+        top = Toplevel()
+        top.title("Results")
+        top.minsize(600, 300)
+
+
+            
+
+        # put results in data
+        data = res
+
+        label = Message(top, text="Data \n")
+        label.pack()
+
+        label = Text(top)
+        label.pack()
+        label.insert(END, data)
 
         scroll1y=Scrollbar(top, command=label.yview)
         scroll1y.pack(side=LEFT, fill=Y)
