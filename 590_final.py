@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+
 """
 John Guinn
 Devin Colbert
@@ -125,7 +126,7 @@ class Application(tk.Frame):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             result = sock.connect_ex((remoteServerIP, port))
             if result == 0:
-                print("Port", format(port))
+                #print("Port", format(port))
                 open_port = port
             sock.close()
 
@@ -159,7 +160,7 @@ class Application(tk.Frame):
         
     def ping(self):
         
-        print("pinging")
+        #print("pinging")
         import subprocess
         #subprocess.check_output(['ls','-l']) #all that is technically needed...
         
@@ -170,7 +171,7 @@ class Application(tk.Frame):
         top.minsize(500, 300)
 
 
-        print(self.E1.get())
+        #print(self.E1.get())
 
 
         
